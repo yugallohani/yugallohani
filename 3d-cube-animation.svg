@@ -1,0 +1,446 @@
+<svg fill="none" viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <style>
+        .container {
+          width: 100%;
+          height: 400px;
+          background: 
+            radial-gradient(circle at 25% 25%, rgba(88, 166, 255, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(139, 69, 255, 0.15) 0%, transparent 50%),
+            linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          perspective: 1200px;
+          font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        .scene {
+          position: relative;
+          width: 500px;
+          height: 400px;
+          transform-style: preserve-3d;
+          animation: sceneOrbit 25s linear infinite;
+        }
+        
+        .cube-system {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform-style: preserve-3d;
+          animation: systemFloat 8s ease-in-out infinite;
+        }
+        
+        .main-cube {
+          position: relative;
+          width: 100px;
+          height: 100px;
+          transform-style: preserve-3d;
+          transform: translate(-50px, -50px);
+          animation: cubeRotate 12s linear infinite;
+        }
+        
+        .cube-face {
+          position: absolute;
+          width: 100px;
+          height: 100px;
+          background: linear-gradient(135deg, rgba(88, 166, 255, 0.1), rgba(139, 69, 255, 0.1));
+          border: 1px solid rgba(88, 166, 255, 0.6);
+          backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: 600;
+          color: #ffffff;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+          transition: all 0.3s ease;
+        }
+        
+        .cube-face::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          opacity: 0;
+          animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        .face-front { 
+          transform: rotateY(0deg) translateZ(50px);
+          border-color: #58a6ff;
+          box-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
+        }
+        .face-back { 
+          transform: rotateY(180deg) translateZ(50px);
+          border-color: #8b45ff;
+          box-shadow: 0 0 20px rgba(139, 69, 255, 0.4);
+        }
+        .face-right { 
+          transform: rotateY(90deg) translateZ(50px);
+          border-color: #ff6b9d;
+          box-shadow: 0 0 20px rgba(255, 107, 157, 0.4);
+        }
+        .face-left { 
+          transform: rotateY(-90deg) translateZ(50px);
+          border-color: #4ecdc4;
+          box-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
+        }
+        .face-top { 
+          transform: rotateX(90deg) translateZ(50px);
+          border-color: #ffe66d;
+          box-shadow: 0 0 20px rgba(255, 230, 109, 0.4);
+        }
+        .face-bottom { 
+          transform: rotateX(-90deg) translateZ(50px);
+          border-color: #ff6b6b;
+          box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        .satellite-cube {
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          transform-style: preserve-3d;
+        }
+        
+        .satellite-cube .cube-face {
+          width: 40px;
+          height: 40px;
+          font-size: 10px;
+          border-width: 1px;
+        }
+        
+        .satellite-1 {
+          animation: satellite1Orbit 15s linear infinite;
+          transform-origin: 0 0;
+        }
+        
+        .satellite-2 {
+          animation: satellite2Orbit 18s linear infinite;
+          transform-origin: 0 0;
+        }
+        
+        .satellite-3 {
+          animation: satellite3Orbit 20s linear infinite;
+          transform-origin: 0 0;
+        }
+        
+        .satellite-4 {
+          animation: satellite4Orbit 22s linear infinite;
+          transform-origin: 0 0;
+        }
+        
+        .orbital-ring {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          border: 1px solid rgba(88, 166, 255, 0.3);
+          border-radius: 50%;
+          background: transparent;
+          animation: ringPulse 4s ease-in-out infinite;
+        }
+        
+        .ring-1 {
+          width: 200px;
+          height: 200px;
+          margin: -100px 0 0 -100px;
+          animation-delay: 0s;
+          border-color: rgba(88, 166, 255, 0.4);
+        }
+        
+        .ring-2 {
+          width: 280px;
+          height: 280px;
+          margin: -140px 0 0 -140px;
+          animation-delay: 1s;
+          border-color: rgba(139, 69, 255, 0.3);
+        }
+        
+        .ring-3 {
+          width: 360px;
+          height: 360px;
+          margin: -180px 0 0 -180px;
+          animation-delay: 2s;
+          border-color: rgba(255, 107, 157, 0.2);
+        }
+        
+        .floating-elements {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+        
+        .tech-label {
+          position: absolute;
+          background: rgba(0, 0, 0, 0.8);
+          border: 1px solid rgba(88, 166, 255, 0.5);
+          border-radius: 20px;
+          padding: 8px 16px;
+          font-size: 12px;
+          font-weight: 500;
+          color: #ffffff;
+          backdrop-filter: blur(10px);
+          animation: labelFloat 6s ease-in-out infinite;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .label-1 {
+          top: 15%;
+          left: 10%;
+          animation-delay: 0s;
+          border-color: #58a6ff;
+          color: #58a6ff;
+        }
+        
+        .label-2 {
+          top: 20%;
+          right: 15%;
+          animation-delay: 1s;
+          border-color: #8b45ff;
+          color: #8b45ff;
+        }
+        
+        .label-3 {
+          bottom: 25%;
+          left: 8%;
+          animation-delay: 2s;
+          border-color: #4ecdc4;
+          color: #4ecdc4;
+        }
+        
+        .label-4 {
+          bottom: 15%;
+          right: 12%;
+          animation-delay: 3s;
+          border-color: #ffe66d;
+          color: #ffe66d;
+        }
+        
+        .label-5 {
+          top: 50%;
+          left: 5%;
+          animation-delay: 4s;
+          border-color: #ff6b9d;
+          color: #ff6b9d;
+        }
+        
+        .label-6 {
+          top: 45%;
+          right: 8%;
+          animation-delay: 5s;
+          border-color: #ff6b6b;
+          color: #ff6b6b;
+        }
+        
+        .energy-particles {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+        
+        .particle {
+          position: absolute;
+          width: 3px;
+          height: 3px;
+          background: #58a6ff;
+          border-radius: 50%;
+          box-shadow: 0 0 10px currentColor;
+          animation: particleFlow 20s linear infinite;
+        }
+        
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; color: #58a6ff; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; color: #8b45ff; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; color: #4ecdc4; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; color: #ffe66d; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; color: #ff6b9d; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 10s; color: #ff6b6b; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 12s; color: #58a6ff; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 14s; color: #8b45ff; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 16s; color: #4ecdc4; }
+        .particle:nth-child(10) { left: 15%; animation-delay: 18s; color: #ffe66d; }
+        
+        .title-text {
+          position: absolute;
+          top: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 32px;
+          font-weight: 700;
+          background: linear-gradient(45deg, #58a6ff, #8b45ff, #ff6b9d);
+          background-size: 200% 200%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: gradientShift 4s ease infinite;
+          text-shadow: 0 0 30px rgba(88, 166, 255, 0.5);
+          z-index: 10;
+        }
+        
+        @keyframes sceneOrbit {
+          0% { transform: rotateY(0deg) rotateX(5deg); }
+          100% { transform: rotateY(360deg) rotateX(5deg); }
+        }
+        
+        @keyframes systemFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes cubeRotate {
+          0% { transform: translate(-50px, -50px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+          100% { transform: translate(-50px, -50px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+        
+        @keyframes shimmer {
+          0%, 100% { opacity: 0; transform: translateX(-100%); }
+          50% { opacity: 1; transform: translateX(100%); }
+        }
+        
+        @keyframes satellite1Orbit {
+          0% { transform: translateX(120px) rotateY(0deg); }
+          100% { transform: translateX(120px) rotateY(360deg); }
+        }
+        
+        @keyframes satellite2Orbit {
+          0% { transform: translateX(-130px) rotateY(0deg); }
+          100% { transform: translateX(-130px) rotateY(-360deg); }
+        }
+        
+        @keyframes satellite3Orbit {
+          0% { transform: translateY(110px) rotateX(0deg); }
+          100% { transform: translateY(110px) rotateX(360deg); }
+        }
+        
+        @keyframes satellite4Orbit {
+          0% { transform: translateY(-120px) rotateX(0deg); }
+          100% { transform: translateY(-120px) rotateX(-360deg); }
+        }
+        
+        @keyframes ringPulse {
+          0%, 100% { 
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.3;
+          }
+          50% { 
+            transform: translate(-50%, -50%) scale(1.05);
+            opacity: 0.6;
+          }
+        }
+        
+        @keyframes labelFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes particleFlow {
+          0% { 
+            transform: translateY(400px) rotate(0deg) scale(0);
+            opacity: 0;
+          }
+          10% { 
+            opacity: 1;
+            transform: translateY(350px) rotate(36deg) scale(1);
+          }
+          90% { 
+            opacity: 1;
+            transform: translateY(-50px) rotate(324deg) scale(1);
+          }
+          100% { 
+            transform: translateY(-100px) rotate(360deg) scale(0);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      </style>
+      
+      <div class="container">
+        <div class="title-text">YUGAL.DEV</div>
+        
+        <div class="energy-particles">
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+        </div>
+        
+        <div class="floating-elements">
+          <div class="tech-label label-1">React</div>
+          <div class="tech-label label-2">Node.js</div>
+          <div class="tech-label label-3">Python</div>
+          <div class="tech-label label-4">TypeScript</div>
+          <div class="tech-label label-5">Docker</div>
+          <div class="tech-label label-6">AWS</div>
+        </div>
+        
+        <div class="scene">
+          <div class="orbital-ring ring-1"></div>
+          <div class="orbital-ring ring-2"></div>
+          <div class="orbital-ring ring-3"></div>
+          
+          <div class="cube-system">
+            <div class="main-cube">
+              <div class="cube-face face-front">Frontend</div>
+              <div class="cube-face face-back">Backend</div>
+              <div class="cube-face face-right">Mobile</div>
+              <div class="cube-face face-left">DevOps</div>
+              <div class="cube-face face-top">AI/ML</div>
+              <div class="cube-face face-bottom">Cloud</div>
+            </div>
+            
+            <div class="satellite-cube satellite-1">
+              <div class="cube-face face-front">JS</div>
+              <div class="cube-face face-back">TS</div>
+              <div class="cube-face face-right">Go</div>
+              <div class="cube-face face-left">Py</div>
+              <div class="cube-face face-top">Rust</div>
+              <div class="cube-face face-bottom">C++</div>
+            </div>
+            
+            <div class="satellite-cube satellite-2">
+              <div class="cube-face face-front">API</div>
+              <div class="cube-face face-back">DB</div>
+              <div class="cube-face face-right">K8s</div>
+              <div class="cube-face face-left">CI/CD</div>
+              <div class="cube-face face-top">ML</div>
+              <div class="cube-face face-bottom">Edge</div>
+            </div>
+            
+            <div class="satellite-cube satellite-3">
+              <div class="cube-face face-front">Web3</div>
+              <div class="cube-face face-back">IoT</div>
+              <div class="cube-face face-right">AR</div>
+              <div class="cube-face face-left">VR</div>
+              <div class="cube-face face-top">AI</div>
+              <div class="cube-face face-bottom">5G</div>
+            </div>
+            
+            <div class="satellite-cube satellite-4">
+              <div class="cube-face face-front">UX</div>
+              <div class="cube-face face-back">DX</div>
+              <div class="cube-face face-right">Perf</div>
+              <div class="cube-face face-left">Sec</div>
+              <div class="cube-face face-top">Scale</div>
+              <div class="cube-face face-bottom">Test</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>

@@ -1,0 +1,345 @@
+<svg fill="none" viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <style>
+        .terminal-container {
+          width: 100%;
+          height: 400px;
+          background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+        }
+        
+        .matrix-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          opacity: 0.08;
+        }
+        
+        .matrix-column {
+          position: absolute;
+          top: -200px;
+          font-family: 'SF Mono', monospace;
+          font-size: 11px;
+          font-weight: 300;
+          white-space: pre-line;
+          animation: matrix-fall linear infinite;
+          text-shadow: 0 0 8px currentColor;
+        }
+        
+        .matrix-column:nth-child(1) { 
+          left: 5%; 
+          animation-duration: 15s; 
+          animation-delay: 0s; 
+          color: #00ff41;
+        }
+        .matrix-column:nth-child(2) { 
+          left: 15%; 
+          animation-duration: 18s; 
+          animation-delay: 3s; 
+          color: #00ff66;
+        }
+        .matrix-column:nth-child(3) { 
+          left: 25%; 
+          animation-duration: 12s; 
+          animation-delay: 6s; 
+          color: #00ff88;
+        }
+        .matrix-column:nth-child(4) { 
+          left: 35%; 
+          animation-duration: 20s; 
+          animation-delay: 2s; 
+          color: #00ff55;
+        }
+        .matrix-column:nth-child(5) { 
+          left: 45%; 
+          animation-duration: 16s; 
+          animation-delay: 8s; 
+          color: #00ff77;
+        }
+        .matrix-column:nth-child(6) { 
+          left: 55%; 
+          animation-duration: 14s; 
+          animation-delay: 4s; 
+          color: #00ff99;
+        }
+        .matrix-column:nth-child(7) { 
+          left: 65%; 
+          animation-duration: 22s; 
+          animation-delay: 7s; 
+          color: #00ff44;
+        }
+        .matrix-column:nth-child(8) { 
+          left: 75%; 
+          animation-duration: 17s; 
+          animation-delay: 1s; 
+          color: #00ff66;
+        }
+        .matrix-column:nth-child(9) { 
+          left: 85%; 
+          animation-duration: 19s; 
+          animation-delay: 5s; 
+          color: #00ff88;
+        }
+        .matrix-column:nth-child(10) { 
+          left: 95%; 
+          animation-duration: 13s; 
+          animation-delay: 9s; 
+          color: #00ff55;
+        }
+        
+        .terminal-window {
+          background: rgba(10, 10, 10, 0.95);
+          border: 1px solid rgba(0, 255, 65, 0.2);
+          border-radius: 8px;
+          padding: 0;
+          width: 600px;
+          height: 280px;
+          position: relative;
+          z-index: 2;
+          box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+          backdrop-filter: blur(10px);
+          overflow: hidden;
+        }
+        
+        .terminal-header {
+          background: rgba(20, 20, 20, 0.8);
+          display: flex;
+          align-items: center;
+          padding: 12px 16px;
+          border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+          border-radius: 8px 8px 0 0;
+        }
+        
+        .terminal-buttons {
+          display: flex;
+          gap: 8px;
+        }
+        
+        .btn {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+        }
+        
+        .btn.close { background: #ff5f56; }
+        .btn.minimize { background: #ffbd2e; }
+        .btn.maximize { background: #27ca3f; }
+        
+        .terminal-title {
+          margin-left: 16px;
+          color: #00ff41;
+          font-family: 'SF Mono', monospace;
+          font-size: 12px;
+          font-weight: 400;
+        }
+        
+        .terminal-content {
+          padding: 20px;
+          font-family: 'SF Mono', monospace;
+          font-size: 14px;
+          line-height: 1.6;
+          height: calc(100% - 50px);
+          overflow: hidden;
+        }
+        
+        .command-line {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 8px;
+          animation: fadeIn 0.6s ease forwards;
+          opacity: 0;
+        }
+        
+        .command-line:nth-child(1) { animation-delay: 0.5s; }
+        .command-line:nth-child(2) { animation-delay: 1.0s; }
+        .command-line:nth-child(3) { animation-delay: 1.5s; }
+        .command-line:nth-child(4) { animation-delay: 2.0s; }
+        .command-line:nth-child(5) { animation-delay: 2.5s; }
+        .command-line:nth-child(6) { animation-delay: 3.0s; }
+        .command-line:nth-child(7) { animation-delay: 3.5s; }
+        .command-line:nth-child(8) { animation-delay: 4.0s; }
+        .command-line:nth-child(9) { animation-delay: 4.5s; }
+        
+        .prompt {
+          color: #00ff41;
+          font-weight: 500;
+          margin-right: 8px;
+        }
+        
+        .command {
+          color: #ffffff;
+          font-weight: 400;
+        }
+        
+        .output {
+          color: #00ccff;
+          margin-left: 20px;
+          margin-bottom: 4px;
+          font-weight: 400;
+        }
+        
+        .highlight {
+          color: #ff6b6b;
+          font-weight: 500;
+        }
+        
+        .accent {
+          color: #ffd93d;
+          font-weight: 500;
+        }
+        
+        .success {
+          color: #6bcf7f;
+          font-weight: 500;
+        }
+        
+        .typing-line {
+          display: flex;
+          align-items: center;
+          animation: typing 4s steps(30) infinite;
+          overflow: hidden;
+          white-space: nowrap;
+          border-right: 2px solid #00ff41;
+          animation-delay: 5s;
+          opacity: 0;
+          animation-fill-mode: forwards;
+        }
+        
+        @keyframes matrix-fall {
+          0% { transform: translateY(-200px); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(600px); opacity: 0; }
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes typing {
+          0% { width: 0; opacity: 1; }
+          50% { width: 100%; }
+          100% { width: 0; }
+        }
+      </style>
+      
+      <div class="terminal-container">
+        <div class="matrix-bg">
+          <div class="matrix-column">const leverage = {
+  automate: true,
+  compound: true,
+  scale: infinite
+};
+
+while(building) {
+  create(leverage);
+  multiply(impact);
+}</div>
+          <div class="matrix-column">// Distributed services
+microservice.deploy({
+  resilient: true,
+  scalable: true,
+  observable: true
+});
+
+service.mesh.connect();</div>
+          <div class="matrix-column">// Reactive interfaces
+const UI = reactive({
+  state: adaptive,
+  events: streaming,
+  updates: realtime
+});
+
+interface.think();</div>
+          <div class="matrix-column">// Adaptive agents
+agent.observe()
+     .reason()
+     .plan()
+     .act()
+     .learn();
+
+intelligence.emerge();</div>
+          <div class="matrix-column">// Automate friction
+friction.detect()
+       .analyze()
+       .automate()
+       .eliminate();
+
+efficiency.compound();</div>
+          <div class="matrix-column">// Compound insight
+insight.accumulate()
+       .connect()
+       .amplify()
+       .share();
+
+knowledge.multiply();</div>
+          <div class="matrix-column">git commit -m "leverage"
+docker build --leverage
+kubectl scale --replicas=∞
+terraform apply --compound</div>
+          <div class="matrix-column">SELECT * FROM systems
+WHERE leverage = true
+  AND impact = 'exponential'
+ORDER BY compound_effect;</div>
+          <div class="matrix-column">01101100 01100101 01110110
+01100001 01110101 01110100
+01101111 01101101 01100001
+01100011 01101111 01101101</div>
+          <div class="matrix-column">// System running quietly
+process.background({
+  leverage: building,
+  impact: compounding,
+  status: 'active'
+});</div>
+        </div>
+        
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="terminal-buttons">
+              <div class="btn close"></div>
+              <div class="btn minimize"></div>
+              <div class="btn maximize"></div>
+            </div>
+            <div class="terminal-title">yugal@leverage:~</div>
+          </div>
+          
+          <div class="terminal-content">
+            <div class="command-line">
+              <span class="prompt">$</span>
+              <span class="command">whoami</span>
+            </div>
+            <div class="output"><span class="highlight">yugal</span> — building <span class="accent">leverage</span>, not just software</div>
+            
+            <div class="command-line">
+              <span class="prompt">$</span>
+              <span class="command">runtime</span>
+            </div>
+            <div class="output"><span class="success">distributed services</span>, <span class="highlight">reactive interfaces</span>, <span class="accent">adaptive agents</span></div>
+            
+            <div class="command-line">
+              <span class="prompt">$</span>
+              <span class="command">doctrine</span>
+            </div>
+            <div class="output"><span class="highlight">automate friction</span>, <span class="success">compound insight</span></div>
+            
+            <div class="typing-line">
+              <span class="prompt">$</span>
+              <span class="command">exit</span>
+            </div>
+            <div class="output" style="animation-delay: 5.5s; opacity: 0; animation: fadeIn 0.6s ease forwards;">(system running quietly)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>
