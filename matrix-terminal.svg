@@ -21,7 +21,8 @@
           width: 100%;
           height: 100%;
           z-index: 1;
-          opacity: 0.08;
+          /* Increased opacity for brighter background text */
+          opacity: 0.3;
         }
         
         .matrix-column {
@@ -35,64 +36,65 @@
           text-shadow: 0 0 8px currentColor;
         }
         
+        /* Increased animation speeds for all columns */
         .matrix-column:nth-child(1) { 
           left: 5%; 
-          animation-duration: 15s; 
+          animation-duration: 8s; 
           animation-delay: 0s; 
           color: #00ff41;
         }
         .matrix-column:nth-child(2) { 
           left: 15%; 
-          animation-duration: 18s; 
-          animation-delay: 3s; 
+          animation-duration: 10s; 
+          animation-delay: 1s; 
           color: #00ff66;
         }
         .matrix-column:nth-child(3) { 
           left: 25%; 
-          animation-duration: 12s; 
-          animation-delay: 6s; 
+          animation-duration: 6s; 
+          animation-delay: 2s; 
           color: #00ff88;
         }
         .matrix-column:nth-child(4) { 
           left: 35%; 
-          animation-duration: 20s; 
-          animation-delay: 2s; 
+          animation-duration: 11s; 
+          animation-delay: 0.5s; 
           color: #00ff55;
         }
         .matrix-column:nth-child(5) { 
           left: 45%; 
-          animation-duration: 16s; 
-          animation-delay: 8s; 
+          animation-duration: 9s; 
+          animation-delay: 1.5s; 
           color: #00ff77;
         }
         .matrix-column:nth-child(6) { 
           left: 55%; 
-          animation-duration: 14s; 
-          animation-delay: 4s; 
+          animation-duration: 7s; 
+          animation-delay: 1s; 
           color: #00ff99;
         }
         .matrix-column:nth-child(7) { 
           left: 65%; 
-          animation-duration: 22s; 
-          animation-delay: 7s; 
+          animation-duration: 12s; 
+          animation-delay: 2s; 
           color: #00ff44;
         }
         .matrix-column:nth-child(8) { 
           left: 75%; 
-          animation-duration: 17s; 
-          animation-delay: 1s; 
+          animation-duration: 9s; 
+          animation-delay: 0s; 
           color: #00ff66;
         }
         .matrix-column:nth-child(9) { 
           left: 85%; 
-          animation-duration: 19s; 
-          animation-delay: 5s; 
+          animation-duration: 10s; 
+          animation-delay: 1s; 
           color: #00ff88;
         }
         .matrix-column:nth-child(10) { 
           left: 95%; 
-          animation-duration: 13s; 
-          animation-delay: 9s; 
+          animation-duration: 7s; 
+          animation-delay: 2s; 
           color: #00ff55;
         }
         
@@ -310,7 +312,7 @@ process.background({
               <div class="btn minimize"></div>
               <div class="btn maximize"></div>
             </div>
-            <div class="terminal-title">yugal@leverage:~</div>
+            <div class="terminal-title">yugal@matrix-core:~$</div>
           </div>
           
           <div class="terminal-content">
